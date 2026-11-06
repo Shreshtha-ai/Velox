@@ -1,7 +1,9 @@
-#ifndef MYCC_LEXER_H
-#define MYCC_LEXER_H
+#ifndef VELOX_LEXER_H
+#define VELOX_LEXER_H
 
 #include <string>
+#include<vector>
+#include<cstddef> 
 
 enum class TokenType{
         KW_INT,
@@ -52,7 +54,6 @@ enum class TokenType{
 
 };
 
-#endif 
 
 
 struct Token {
@@ -61,3 +62,44 @@ struct Token {
     int line;
     int column;
 };
+
+
+class Lexer {
+    public:
+        explicit Lexer(const std::string& source);
+        std::vector<Token> tokenize();
+    private:
+        std::string source;
+        std::size_t position;
+        int line;
+        int column;
+
+
+        bool isAtEnd() const;
+        char peek() const;
+        char peekNext() const;
+        char advance();
+        bool match(char expected);
+
+        Token makeToken(TokenType type,
+                    std::size_t start,
+                    int startLine,
+                    int startColumn);
+
+
+        Token readIdentifierOrKeyword();
+        Token readNumber();
+        Token readOperatorOrPunctuation();
+
+
+        void skipWhitespaceAndComments();
+};
+
+
+
+
+
+
+
+
+#endif
