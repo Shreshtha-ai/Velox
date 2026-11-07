@@ -24,3 +24,35 @@ char Lexer::peekNext() const {
 
     return source[position + 1];
 }
+
+
+char Lexer::advance() {
+    if (isAtEnd()) {
+        return '\0';
+    }
+
+    char current = source[position];
+    position++;
+
+    if (current == '\n') {
+        line++;
+        column = 1;
+    } else {
+        column++;
+    }
+
+    return current;
+}
+
+bool Lexer::match(char expected) {
+    if (isAtEnd()) {
+        return false;
+    }
+
+    if (peek() != expected) {
+        return false;
+    }
+
+    advance();
+    return true;
+}
