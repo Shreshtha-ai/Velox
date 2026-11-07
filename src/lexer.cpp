@@ -56,3 +56,21 @@ bool Lexer::match(char expected) {
     advance();
     return true;
 }
+
+
+Token Lexer::makeToken( //aggregate initialization
+    TokenType type,
+    std::size_t start,
+    int startLine,
+    int startColumn
+) {
+    std::string lexeme = source.substr(start, position - start);
+
+    return Token{
+        type,
+        lexeme,
+        startLine,
+        startColumn
+    };
+}
+
