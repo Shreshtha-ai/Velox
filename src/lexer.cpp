@@ -122,3 +122,19 @@ Token Lexer::readIdentifierOrKeyword() {
     // Create and return the token
     return makeToken(type, start, startLine, startColumn);
 }
+
+
+Token Lexer::readNumber(){
+
+    std::size_t start = position;
+    int startline = line;
+    int startcolumn = column;
+
+    while(!isAtEnd() && std::isdigit(static_cast<unsigned char>(peek()))){
+        advance();
+    }
+
+
+    return makeToken(TokenType::INTEGER_LITERAL, start, startline, startcolumn);
+    
+}
