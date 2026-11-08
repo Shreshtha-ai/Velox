@@ -1,0 +1,12 @@
+# CMake build directory
+build/
+
+# Compiled object files
+*.o
+
+# Executables
+velox
+*.out
+
+# Debug symbols
+*.dSYM/
