@@ -257,3 +257,66 @@ Token Lexer::readOperatorOrPunctuation() {
     }
 }
 
+
+//whitespaces - spaces, tabs, newlines, and comments (single-line and multi-line) are ignored by the lexer.
+
+void Lexer::skipWhitespaceAndComments(){
+    while(!isAtEnd()){
+        // Case 1: Skip whitespace
+        if (std::isspace(static_cast<unsigned char>(peek()))) {
+            advance();
+        }
+
+        // Case 2: Single-line comment //
+        else if (peek() == '/' && peekNext() == '/') {
+
+            // Consume both slashes
+            advance();
+            advance();
+
+            // Skip until newline or end of file
+            while (!isAtEnd() && peek() != '\n') {
+                advance();
+            }
+        }
+
+        // Case 3: Multiline comment /*
+        else if (peek() == '/' && peekNext() == '*') {
+
+            // Consume /*
+            advance();
+            advance();
+
+            // Skip until */
+            bool commentClosed = false;
+
+            while (!isAtEnd()) {
+
+                if (peek() == '*' && peekNext() == '/') {
+                    advance();
+                    advance();
+
+                    commentClosed = true;
+                    break;
+                }
+
+                advance();
+            }
+
+            if (!commentClosed) {
+                throw std::runtime_error(
+                    "Unterminated multiline comment"
+                );
+            }
+        }
+
+        // No whitespace or comment found
+        else {
+            break;
+        }
+    }
+}   
+
+
+   
+
