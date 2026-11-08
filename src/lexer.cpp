@@ -318,5 +318,55 @@ void Lexer::skipWhitespaceAndComments(){
 }   
 
 
+std::vector<Token> Lexer::tokenize(){
+    std::vector<Token> tokens;
+
+    while(!isAtEnd()){
+
+        skipWhitespaceAndComments();
+
+        if (isAtEnd()) {
+            break;
+        }
+
+        // Examine the current character
+        char current = peek();
+
+        Token token;
+
+        // Case 1: Identifier or keyword
+        if (std::isalpha(static_cast<unsigned char>(current)) ||
+            current == '_') {
+
+            token = readIdentifierOrKeyword();
+        }
+
+        // Case 2: Integer literal
+        else if (std::isdigit(static_cast<unsigned char>(current))) {
+
+            token = readNumber();
+        }
+
+        // Case 3: Operator or punctuation
+        else {
+
+            token = readOperatorOrPunctuation();
+        }
+
+        // Add the recognized token to the vector
+        tokens.push_back(token);
+    }
+
+    // Add the special EOF token
+    tokens.push_back(Token{
+        TokenType::END_OF_FILE,
+        "",
+        line,
+        column
+    });
+
+    return tokens;
+}
+
    
 
