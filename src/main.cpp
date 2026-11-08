@@ -53,7 +53,7 @@ std::string tokenTypeName(TokenType type) {
     return "UNKNOWN";
 }
 
-int main(int argc, char* argv[]) {
+int main(int argc, char* argv[]) { //argc = argument count, argv = argument vector (array of strings)
 
     // Check whether the user supplied a filename.
     if (argc < 2) {
